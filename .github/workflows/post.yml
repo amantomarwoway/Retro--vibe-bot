@@ -9,9 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: sudo apt-get update && sudo apt-get install -y ffmpeg wget -qq
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg wget -qq
       - uses: actions/setup-python@v4
-        with: {python-version: '3.9'}
-      - run: pip install requests -q
-      - run: python bot.py
-        env: {FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}}
+        with:
+          python-version: '3.9'
+      - name: Install requests
+        run: pip install requests -q
+      - name: Run Bot
+        env:
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+        run: python bot.py
