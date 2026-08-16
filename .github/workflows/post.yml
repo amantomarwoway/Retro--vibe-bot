@@ -2,8 +2,8 @@ name: Retro Video Tab
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 4 * * *'   # 9:30 AM IST
-    - cron: '0 14 * * *'  # 7:30 PM IST
+    - cron: '0 4 * * *'
+    - cron: '0 14 * * *'
 jobs:
   j:
     runs-on: ubuntu-latest
