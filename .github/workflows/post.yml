@@ -1,4 +1,4 @@
-name: Retro Vibe Full Bot
+name: Retro Vibe - Movies Only
 on:
   workflow_dispatch:
   schedule:
@@ -8,21 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Bypass for YouTube Bot Check
-        run: |
+      - run: |
           sudo apt-get update -y && sudo apt-get install -y ffmpeg
-          pip install -U yt-dlp requests bgutil-ytdlp-pot-provider
-          # POT Provider server start karo - Yehi Sign in error ko bypass karega
-          git clone --single-branch --branch 1.1.0 https://github.com/Brainicism/bgutil-ytdlp-pot-provider.git
-          cd bgutil-ytdlp-pot-provider/server
-          npm install -g yarn
-          yarn install --frozen-lockfile
-          npx tsc
-          nohup node build/main.js &
-          sleep 5
-          echo "BYPASS SERVER STARTED"
-
+          pip install -U requests
       - env:
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
         run: python bot.py
