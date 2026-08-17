@@ -1,10 +1,8 @@
 name: Retro Vibe Dual Bot
-
 on:
   schedule:
-    - cron: '30 3 * * *' # Roz 9 AM IST
+    - cron: '30 3 * * *'
   workflow_dispatch:
-
 jobs:
   run:
     runs-on: ubuntu-latest
