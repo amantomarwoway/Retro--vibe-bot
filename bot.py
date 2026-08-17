@@ -80,8 +80,8 @@ Retro Vibe Club - Purani Indian filmo ka khazana
 
 #PublicDomain #OldIndianMovie #NoCopyright #RetroVibeClub #4KMovie #IndianCine
 """
-
-tok = os.environ.get('FB_PAGE_TOKEN','')
+tok = os.environ.get('FB_PAGE_TOKEN','').strip()
+print(f"TOKEN LENGTH: {len(tok)}")
 if tok:
     with open('final_4k.mp4','rb') as vf:
         r = requests.post("https://graph.facebook.com/v19.0/me/videos",
