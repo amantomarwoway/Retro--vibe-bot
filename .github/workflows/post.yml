@@ -1,19 +1,14 @@
-name: Retro Vibe Final
+name: Retro Vibe 4K Bot
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '0 4 * * *' # Roz subah 9:30 AM IST
 jobs:
   post:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y ffmpeg
-          pip install -U requests
-      - name: Run Bot
-        env:
+      - run: sudo apt-get update -y && sudo apt-get install -y ffmpeg && pip install -U requests
+      - env:
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
         run: python bot.py
