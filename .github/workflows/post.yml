@@ -3,22 +3,17 @@ on:
   schedule:
     - cron: '0 4 * * *'
   workflow_dispatch:
-
 jobs:
   post:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
       - name: Install
         run: |
           sudo apt-get update -y
           sudo apt-get install -y ffmpeg
-          pip install -U yt-dlp requests
+          pip install -U requests
       - name: Run Bot
         env:
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
-        run: |
-          python bot.py
+        run: python bot.py
