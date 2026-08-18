@@ -13,4 +13,5 @@ jobs:
           pip install -U requests
       - env:
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
         run: python bot.py
