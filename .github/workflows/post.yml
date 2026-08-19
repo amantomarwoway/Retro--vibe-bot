@@ -2,7 +2,8 @@ name: Retro Vibe - Movies Only
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '30 1 * * *'
+    - cron: '30 14 * * *'
 jobs:
   post:
     runs-on: ubuntu-latest
