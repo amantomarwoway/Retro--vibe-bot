@@ -1,14 +1,15 @@
-name: Retro Vibe 7 Reels Daily
+name: Retro Vibe Permanent - YouTube
 
 on:
   schedule:
+    # Din ki 7 Reels - IST time
     - cron: '30 2 * * *'   # 08:00 AM IST
     - cron: '30 4 * * *'   # 09:30 AM IST
     - cron: '30 6 * * *'   # 12:00 PM IST
     - cron: '30 9 * * *'   # 02:30 PM IST
-    - cron: '30 11 * * *'  # 05:00 PM IST
+    - cron: '30 11 * * *'  # 04:30 PM IST
     - cron: '30 14 * * *'  # 07:30 PM IST
-    - cron: '30 16 * * *'  # 09:30 PM IST
+    - cron: '30 16 * * *'  # 10:00 PM IST
   workflow_dispatch:
 
 jobs:
@@ -16,32 +17,49 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install FFmpeg & libs
+      - name: Install FFmpeg & yt-dlp
         run: |
           sudo apt-get update -y
           sudo apt-get install -y ffmpeg
-          pip install -U requests
+          pip install -U requests yt-dlp
 
-      - name: Run Bot
+      - name: Clean old files (Runner Fix)
+        run: |
+          rm -f input.* reel.* *.mp4 *.webm || true
+          ls -la
+
+      - name: Run Permanent Bot
         env:
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
         run: |
+          echo "Starting bot..."
+          echo "TOKEN length: ${#FB_PAGE_TOKEN}"
           python shorts_bot.py
 
-      - name: Save History (No Repeat)
+      - name: Save History - No Repeat
+        if: always()
         run: |
-          git config user.name "retro-bot"
-          git config user.email "bot@retro.com"
-          git add posted_history.json || echo "no history file"
-          git commit -m "update history - posted reel" || echo "nothing to commit"
-          git push || echo "push failed"
+          git config user.name "retro-vibe-bot"
+          git config user.email "bot@retrovibe.com"
+          git pull --rebase || true
+          git add posted_history.json || echo "no history"
+          git commit -m "Update history - ${{ github.run_id }}" || echo "nothing to commit"
+          git push || echo "push failed, will retry next run"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f input.* reel.* *.mp4 *.webm || true
