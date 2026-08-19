@@ -1,27 +1,47 @@
-name: Retro 7 Reels Daily
+name: Retro Vibe 7 Reels Daily
+
 on:
   schedule:
-    - cron: '30 2 * * *'   # 8:00 AM IST
-    - cron: '30 4 * * *'   # 10:00 AM
-    - cron: '30 6 * * *'   # 11:30 AM
-    - cron: '30 9 * * *'   # 2:30 PM
-    - cron: '30 12 * * *'  # 6:00 PM
-    - cron: '30 15 * * *'  # 8:30 PM
-    - cron: '30 17 * * *'  # 11:00 PM
+    - cron: '30 2 * * *'   # 08:00 AM IST
+    - cron: '30 4 * * *'   # 09:30 AM IST
+    - cron: '30 6 * * *'   # 12:00 PM IST
+    - cron: '30 9 * * *'   # 02:30 PM IST
+    - cron: '30 11 * * *'  # 05:00 PM IST
+    - cron: '30 14 * * *'  # 07:30 PM IST
+    - cron: '30 16 * * *'  # 09:30 PM IST
   workflow_dispatch:
 
 jobs:
-  reels:
+  post-reel:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
-      - name: Install libs
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install FFmpeg & libs
         run: |
           sudo apt-get update -y
           sudo apt-get install -y ffmpeg
-          pip install -U requests yt-dlp
+          pip install -U requests
+
       - name: Run Bot
         env:
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
-        run: python shorts_bot.py
+        run: |
+          python shorts_bot.py
+
+      - name: Save History (No Repeat)
+        run: |
+          git config user.name "retro-bot"
+          git config user.email "bot@retro.com"
+          git add posted_history.json || echo "no history file"
+          git commit -m "update history - posted reel" || echo "nothing to commit"
+          git push || echo "push failed"
