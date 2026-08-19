@@ -1,0 +1,28 @@
+name: Retro Vibe - Shorts Reels 4K IndianCineMa
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 1 * * *'
+    - cron: '30 4 * * *'
+    - cron: '0 7 * * *'
+    - cron: '0 11 * * *'
+    - cron: '30 13 * * *'
+    - cron: '0 15 * * *'
+    - cron: '30 16 * * *'
+
+jobs:
+  reels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install FFmpeg and Python libs
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ffmpeg
+          pip install -U requests
+      - name: Run Indian Cine.ma Reels Bot
+        env:
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+        run: |
+          python shorts_bot.py
