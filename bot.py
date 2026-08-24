@@ -2,22 +2,6 @@ import os, random, requests, subprocess as sp
 
 print("=== RETRO VIBE - INDIAN PUBLIC DOMAIN MOVIES ONLY ===")
 
-# INDIAN PUBLIC DOMAIN MOVIES (1965 se pehle) - Indiancine.ma Direct Links
-MOVIES = [
-    {"title": "Raja Harishchandra 1913 - First Indian Movie", "url": "https://indiancine.ma/download/RajaHarishchandra1913/RajaHarishchandra.mp4"},
-    {"title": "Alam Ara 1931 - First Talkie", "url": "https://indiancine.ma/download/alam-ara-1931/AlamAra.mp4"},
-    {"title": "Devdas 1935 Classic", "url": "https://indiancine.ma/download/devdas-1935/Devdas1935.mp4"},
-    {"title": "Achhut Kanya 1936", "url": "https://indiancine.ma/download/achhut-kanya-1936/AchhutKanya.mp4"},
-    {"title": "Kisan Kanya 1937 First Color", "url": "https://indiancine.ma/download/kisan-kanya-1937/KisanKanya.mp4"},
-    {"title": "Pukar 1939 Sohrab Modi", "url": "https://indiancine.ma/download/pukar-1939/Pukar1939.mp4"},
-    {"title": "Aurat 1940 - Mother India Original", "url": "https://indiancine.ma/download/aurat-1940/Aurat1940.mp4"},
-    {"title": "Dr Kotnis Ki Amar Kahani 1946", "url": "https://indian.ma/download/dr-kotnis-ki-amar-kahani/DrKotnis.mp4"},
-    # Backup - Blender Public Domain Movies
-    {"title": "Sintel Classic Movie 4K", "url": "https://download.blender.org/durian/trailer/sintel_trailer-720p.mp4"},
-    {"title": "Big Buck Bunny Classic", "url": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_640x360.mp4"},
-    {"title": "Elephants Dream Old Film", "url": "https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"},
-]
-
 # 11 ko 150 banao
 FULL = []
 for i in range(15):
@@ -52,7 +36,7 @@ for _ in range(15):
 
 if not downloaded:
     print("Archive fail, using Blender fallback")
-    with requests.get("https://download.blender.org/durian/trailer/sintel_trailer-720p.mp4", stream=True) as r:
+    with requests.get("https://download.archive.org/details/moviesandfilms?tab=collection, stream=True) as r:
         with open('input.mp4','wb') as f:
             for c in r.iter_content(1024*1024):
                 f.write(c)
